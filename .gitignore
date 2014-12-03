@@ -1,0 +1,4 @@
+.px-state
+*.py[co]
+desktop.ini
+Thumbs.db

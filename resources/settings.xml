@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<settings>
+    <category label="API">
+        <setting id="url" type="text" label="Sickrage URL" default="http://localhost:8081/"/>
+        <setting id="key" type="text" label="Sickrage API Key" default="" />
+    </category>
+    <category label="Formats">
+        <setting id="dateFormat" type="labelenum" label="Dates" values="M/D/Y|D/M/Y" default="M/D/Y"/>
+        <setting id="timeFormat" type="labelenum" label="Times" values="AM/PM|24 Hour" default="AM/PM"/>
+    </category>
+</settings>
