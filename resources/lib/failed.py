@@ -14,6 +14,7 @@ def menu():
             label = str(release['release'])
         )
         listItem.addContextMenuItems([
+            #('Delete', util.getContextCommand('failedDelete', [release['release']])),
             ('Refresh list', util.getContextCommand('refresh'))
         ], True)
         xbmcplugin.addDirectoryItem(

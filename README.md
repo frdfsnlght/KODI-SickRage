@@ -4,10 +4,11 @@ Addon for SickRage.
 
 ## Features
  - Manage shows (add/delete, review seasons/episodes)
+ - Change episode status
  - View upcoming episodes
  - View download history
  - View backlog
- - View failed downloads
+ - View/delete failed downloads
  - Customizable date/time format
  
 ## Screenshots
@@ -19,4 +20,7 @@ Addon for SickRage.
 [Backlog](http://imgur.com/zeyxAYe)
 
 ## Install
-Coming soon.
+ - Download the latest release file
+ - Save it where Kodi/XBMC can read it
+ - Install add on from zip file in Kodi/XBMC
+ 

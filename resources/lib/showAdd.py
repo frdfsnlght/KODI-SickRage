@@ -1,11 +1,13 @@
 import xbmc
 import xbmcgui
 
+from operator import itemgetter
+
 import util as util
 
 def action():
-
-    # Search for a name
+    
+    # Get the name
     
     keyboard = xbmc.Keyboard('', 'Search for...', False)
     keyboard.doModal()
@@ -13,14 +15,35 @@ def action():
         return
     searchName = keyboard.getText() 
 
-    matches = util.api.doSearch(searchName)
+    # Get indexer to use
+    
+    indexers = ['All Indexers', 'theTVDB', 'TVRage']
+    dialog = xbmcgui.Dialog()
+    indexerIndex = dialog.select('Indexer to Search', indexers)
+    if indexerIndex == -1:
+        return
+    
+    # Do the search
+    
+    matches = util.api.doSearch(searchName, indexerIndex)
     if not matches:
         util.message('Search Results', 'No matching shows found.')
         return
 
     matchList = []
     for show in matches:
-        matchList.append(show['name'] + ' - ' + util.formatDate(show['first_aired']))
+        if not indexerIndex == 0:
+            if not show['indexer'] == indexerIndex:
+                continue
+            indexer = ''
+        else:
+            if 'tvdbid' in show:
+                indexer = 'theTVDB'
+            elif 'tvrageid' in show:
+                indexer = 'TVRage'
+            else:
+                indexer = 'Unknown'
+        matchList.append(show['name'] + ' - ' + util.formatDate(show['first_aired']) + ' ' + indexer)
     dialog = xbmcgui.Dialog()
     matchIndex = dialog.select('Search Results', matchList)
     if matchIndex == -1:
@@ -102,7 +125,15 @@ def action():
     
     # Add the show!
     
-    result = util.api.doAddNewShow(show['tvdbid'], location, status, flattenFolders, anime, sceneNumbered, quality)
+    if 'tvdbid' in show:
+        indexerid = show['tvdbid']
+        indexer = 'tvdb'
+    elif 'tvrageid' in show:
+        indexerid = show['tvrageid']
+        indexer = 'tvrage'
+    else:
+        indexerid = None
+    result = util.api.doAddNewShow(indexerid, indexer, location, status, flattenFolders, anime, sceneNumbered, quality)
     if result['result'] == 'success':
         util.message('Add Show', 'The show has been added.', 'It may take a moment before it appears in the list.')
         xbmc.executebuiltin('Container.Refresh')

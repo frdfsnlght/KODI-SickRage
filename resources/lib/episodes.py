@@ -20,14 +20,14 @@ def menu():
             thumbnailImage = thumbnailImage
         )
         listItem.addContextMenuItems([
-            ('Set Episode Status', util.getContextCommand('episodeStatus', [showId, season, episodeNum])),
+            ('Set Episode Status', util.getContextCommand('episodeStatus', [showId, season, episodeNum, episode['status']])),
             ('Set Season Status', util.getContextCommand('seasonStatus', [showId, season])),
             ('Manual Search', util.getContextCommand('episodeSearch', [showId, season, episodeNum])),
             ('Refresh list', util.getContextCommand('refresh'))
         ], True)
         xbmcplugin.addDirectoryItem(
             handle = util.pluginId,
-            url = '',
+            url = None,
             listitem = listItem,
             isFolder = False
         )

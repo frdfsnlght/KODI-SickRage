@@ -4,7 +4,7 @@ import json
 
 import util as util
 
-socket.setdefaulttimeout(float(util.plugin.getSetting('timeout')))
+socket.setdefaulttimeout(40)
 
 class API:
 
@@ -79,8 +79,15 @@ class API:
     def doForceSearch(self):
         return self.request('sb.forcesearch')
     
-    def doSearch(self, name):
-        result = self.request('sb.searchtvdb', {'name': name})
+    def doSearch(self, name, indexer):
+        if indexer == 0:
+            result = self.request('sb.searchindexers', {'name': name})
+        elif indexer == 1:
+            result = self.request('sb.searchtvdb', {'name': name})
+        elif indexer == 2:
+            result = self.request('sb.searchtvrage', {'name': name})
+        else:
+            return []
         return result['data']['results']
         
     def getRootDirs(self):
@@ -91,14 +98,23 @@ class API:
         result = self.request('sb.getdefaults')
         return result['data']
         
-    def doAddNewShow(self, id, location, status, flattenFolders, anime, sceneNumbered, quality):
+    def doAddNewShow(self, id, indexer, location, status, flattenFolders, anime, sceneNumbered, quality):
         return self.request('show.addnew', {
-            'tvdbid': id,
+            'indexerid': id,
+            indexer + 'id': id,
             'location': location,
             'status': status,
             'flatten_folders': 0 if flattenFolders else 1,
             'anime': 1 if anime else 0,
             'scene': 1 if sceneNumbered else 0,
             'initial': quality
+        })
+        
+    def doEpisodeSetStatus(self, id, season, episode, status):
+        return self.request('episode.setstatus', {
+            'indexerid': id,
+            'season': season,
+            'episode': episode,
+            'status': status
         })
         

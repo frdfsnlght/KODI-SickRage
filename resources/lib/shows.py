@@ -14,6 +14,9 @@ def menu():
         label = 'Add show...',
         thumbnailImage = util.getIcon('showAdd')
     )
+    listItem.addContextMenuItems([
+        ('Refresh list', util.getContextCommand('refresh'))
+    ], True)
     xbmcplugin.addDirectoryItem(
         handle = util.pluginId,
         url = url,

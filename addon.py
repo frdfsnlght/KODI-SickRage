@@ -1,7 +1,5 @@
 import resources.lib.util as util
 
-# wrap this in a try/catch to catch broken API calls (can't connect, timeout, etc)
-
 try:
     if 'vf' in util.pluginArgs:
         vf = util.pluginArgs['vf']
@@ -36,7 +34,7 @@ try:
             import resources.lib.showAdd as showAdd
             showAdd.action()
         else:
-            util.log('invalid folder "' + vf + '"')
+            util.log('invalid action "' + action + '"')
     else:
         import resources.lib.main as main
         main.menu()

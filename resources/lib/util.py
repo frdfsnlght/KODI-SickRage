@@ -45,19 +45,9 @@ def getActionURL(action, params = {}):
     url = pluginURL + '?' + urllib.urlencode(params)
     return url
     
-def xbmcAddDirectory(label, vf, params = {}):
-    params['vf'] = vf
-    url = pluginURL + '?' + urllib.urlencode(params)
-    listItem = xbmcgui.ListItem(label)
-    xbmcplugin.addDirectoryItem(handle = pluginId, url = url, listitem = listItem, isFolder = True)
-
-def xbmcEndDirectory():
-    xbmcplugin.endOfDirectory(pluginId)        
-
-def getArguments():
-    if len(sys.argv) < 3:
+def getKWArguments(argv):
+    if not argv:
         return {}
-    argv = sys.argv[2]
     if argv.startswith('?'):
         argv = argv[1:]
     #log('argv is now ' + argv)
@@ -121,15 +111,26 @@ def formatEpisodeName(show):
         out = out + ' - ' + show['ep_name']
     return out
 
-log(sys.argv)
-    
+def isInt(s):
+    try:
+        int(s)
+        return True
+    except ValueError:
+        return False
+
 pluginURL = sys.argv[0]
-pluginId = int(sys.argv[1])
-pluginArgs = getArguments()
+if pluginURL.endswith('.py'):
+    pluginId = None
+    pluginArgs = sys.argv[1:]
+else:
+    pluginId = int(sys.argv[1])
+    pluginArgs = getKWArguments(sys.argv[2])
+    
 api = sickrage.API()
 iconDir = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'icons')
 
+log(sys.argv)
 #log('iconDir: ' + iconDir)
 #log('pluginURL: ' + pluginURL)
 #log('pluginId: ' + str(pluginId))
-#log(pluginArgs)
+log(pluginArgs)
