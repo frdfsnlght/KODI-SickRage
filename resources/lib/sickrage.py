@@ -1,4 +1,6 @@
 import urllib
+import urllib2
+import base64
 import socket
 import json
 
@@ -25,7 +27,13 @@ class API:
         params['cmd'] = cmd
         url = util.plugin.getSetting('url') + 'api/' + util.plugin.getSetting('key') + '/?' + urllib.urlencode(params)
         util.log('API: ' + url)
-        result = json.load(urllib.urlopen(url))
+        req = urllib2.Request(url)
+        user = util.plugin.getSetting('user')
+        password = util.plugin.getSetting('password')
+        if user and password:
+            auth = base64.encodestring('{}:{}'.format(user, password)).replace('\n', '')
+            req.add_header("Authorization", "Basic %s" % auth)        
+        result = json.load(urllib2.urlopen(req))
         #util.log(result)
         if result['result'] == 'denied':
             raise Exception('Access denied, check API Key.')

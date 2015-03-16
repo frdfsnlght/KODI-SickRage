@@ -2,8 +2,12 @@
 <settings>
     <category label="API">
         <setting id="url" type="text" label="Sickrage URL" default="http://localhost:8081/"/>
-        <setting id="key" type="text" label="Sickrage API Key" default="" />
+        <setting id="key" type="text" label="Sickrage API Key" default=""/>
     </category>
+    <category label="Authentication">
+        <setting id="user" type="text" label="Username" default=""/>
+        <setting id="password" type="text" label="Password" default=""/>
+    </category>       
     <category label="Formats">
         <setting id="dateFormat" type="labelenum" label="Dates" values="M/D/Y|D/M/Y" default="M/D/Y"/>
         <setting id="timeFormat" type="labelenum" label="Times" values="AM/PM|24 Hour" default="AM/PM"/>
